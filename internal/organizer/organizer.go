@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/jasonaloi/forg/internal/config"
-	"github.com/jasonaloi/forg/internal/rules"
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/config"
+	"github.com/devaloi/forg/internal/rules"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 // Options controls the behaviour of a Run invocation.

@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/jasonaloi/forg/internal/config"
-	"github.com/jasonaloi/forg/internal/organizer"
+	"github.com/devaloi/forg/internal/config"
+	"github.com/devaloi/forg/internal/organizer"
 )
 
 func noopLogger(string, ...interface{}) {}

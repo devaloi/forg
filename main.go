@@ -4,7 +4,7 @@ package main
 import (
 	"os"
 
-	"github.com/jasonaloi/forg/cmd"
+	"github.com/devaloi/forg/cmd"
 )
 
 func main() {

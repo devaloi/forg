@@ -3,8 +3,8 @@ package rules
 import (
 	"fmt"
 
-	"github.com/jasonaloi/forg/internal/config"
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/config"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 // Engine evaluates files against an ordered set of rules and returns

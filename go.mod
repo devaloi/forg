@@ -1,4 +1,4 @@
-module github.com/jasonaloi/forg
+module github.com/devaloi/forg
 
 go 1.25.0
 

@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jasonaloi/forg/internal/config"
-	"github.com/jasonaloi/forg/internal/rules"
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/config"
+	"github.com/devaloi/forg/internal/rules"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 func createTempFile(t *testing.T, dir, name, content string) string {

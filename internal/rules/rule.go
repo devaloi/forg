@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 // Matcher is the interface that wraps the Match method.

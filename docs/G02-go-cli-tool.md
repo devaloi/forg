@@ -113,7 +113,7 @@ rules:
 ### Phase 1: Scaffold & Core Logic
 
 **1.1 — Project setup**
-- `go mod init github.com/USERNAME/forg`
+- `go mod init github.com/devaloi/forg`
 - Install deps: `github.com/spf13/cobra`, `github.com/spf13/viper`, `gopkg.in/yaml.v3`
 - Create directory structure per architecture above
 - Create `Makefile` with: `build`, `test`, `lint`, `run`, `clean`

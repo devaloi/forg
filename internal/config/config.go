@@ -251,7 +251,7 @@ func ExpandPath(path string) (string, error) {
 // SampleConfig returns a sample .forg.yaml configuration string.
 func SampleConfig() string {
 	return "# forg configuration file\n" +
-		"# See https://github.com/jasonaloi/forg for documentation\n" +
+		"# See https://github.com/devaloi/forg for documentation\n" +
 		"\n" +
 		"source: ~/Downloads\n" +
 		"conflict: rename\n" +

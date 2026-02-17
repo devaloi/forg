@@ -59,6 +59,18 @@ Before you consider the project done:
 
 ---
 
+## GitHub Username
+
+The GitHub username is **devaloi**. For Go module paths, use `github.com/devaloi/forg`. All internal imports must use this module path. Do not guess or use any other username.
+
+## Fix Before Starting
+
+The current `go.mod` uses the wrong module path. Before doing anything else:
+1. Update `go.mod` module to `github.com/devaloi/forg`
+2. Find/replace `github.com/jasonaloi/forg` → `github.com/devaloi/forg` across ALL `.go` files
+3. Run `go build ./...` to verify
+4. Commit: `fix: correct module path to github.com/devaloi/forg`
+
 ## Start
 
-Read the three docs. Then begin Phase 1 from `docs/G02-go-cli-tool.md`.
+Read the three docs. Fix the module path above. Then review the existing code against the spec and continue from wherever the previous agent left off.

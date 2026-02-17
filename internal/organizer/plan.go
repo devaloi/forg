@@ -2,8 +2,8 @@
 package organizer
 
 import (
-	"github.com/jasonaloi/forg/internal/rules"
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/rules"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 // MoveOp represents a planned file move operation from a source path to a

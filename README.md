@@ -18,13 +18,13 @@ A fast, configurable CLI tool that organizes files into directories based on rul
 ## Install
 
 ```bash
-go install github.com/jasonaloi/forg@latest
+go install github.com/devaloi/forg@latest
 ```
 
 Or build from source:
 
 ```bash
-git clone https://github.com/jasonaloi/forg.git
+git clone https://github.com/devaloi/forg.git
 cd forg
 make build
 ```

@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jasonaloi/forg/internal/config"
-	"github.com/jasonaloi/forg/internal/scanner"
+	"github.com/devaloi/forg/internal/config"
+	"github.com/devaloi/forg/internal/scanner"
 )
 
 func TestExtensionMatcher(t *testing.T) {
