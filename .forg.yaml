@@ -1,0 +1,30 @@
+# .forg.yaml — forg configuration
+source: ~/Downloads
+conflict: skip # skip | rename | overwrite
+
+rules:
+  - name: Images
+    match:
+      extensions: [.jpg, .jpeg, .png, .gif, .webp, .svg]
+    destination: ~/Pictures/Downloads
+
+  - name: Documents
+    match:
+      extensions: [.pdf, .doc, .docx, .xls, .xlsx, .csv]
+    destination: ~/Documents/Downloads
+
+  - name: Archives
+    match:
+      extensions: [.zip, .tar, .gz, .rar, .7z]
+    destination: ~/Archives
+
+  - name: Large Files
+    match:
+      min_size: 100MB
+    destination: ~/LargeFiles
+
+  - name: Old Screenshots
+    match:
+      pattern: "Screenshot*"
+      older_than: 30d
+    destination: ~/Pictures/Old Screenshots

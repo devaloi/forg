@@ -1,0 +1,25 @@
+# Binary
+forg
+forg.exe
+
+# Build output
+dist/
+bin/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test output
+coverage.out
+coverage.html
