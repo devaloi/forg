@@ -1,3 +1,4 @@
+//nolint:revive // scanner is a domain name, not conflicting with bufio.Scanner
 package scanner
 
 import (
@@ -12,10 +13,10 @@ import (
 func createFile(t *testing.T, path string, content string) {
 	t.Helper()
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0o755); err != nil {
+	if err := os.MkdirAll(dir, 0o750); err != nil {
 		t.Fatalf("creating directory %q: %v", dir, err)
 	}
-	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
 		t.Fatalf("writing file %q: %v", path, err)
 	}
 }
@@ -184,7 +185,7 @@ func TestScan_SkipsDirectories(t *testing.T) {
 	dir := t.TempDir()
 
 	createFile(t, filepath.Join(dir, "file.txt"), "content")
-	if err := os.MkdirAll(filepath.Join(dir, "subdir"), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Join(dir, "subdir"), 0o750); err != nil {
 		t.Fatalf("creating subdir: %v", err)
 	}
 

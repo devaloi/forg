@@ -14,7 +14,7 @@ import (
 func createTempFile(t *testing.T, dir, name, content string) string {
 	t.Helper()
 	path := filepath.Join(dir, name)
-	if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
 		t.Fatalf("creating temp file %s: %v", path, err)
 	}
 	return path
@@ -257,7 +257,7 @@ func TestExecute_ConflictRename(t *testing.T) {
 
 	t.Run("original destination untouched", func(t *testing.T) {
 		orig := filepath.Join(destDir, "file.txt")
-		data, err := os.ReadFile(orig)
+		data, err := os.ReadFile(orig) //nolint:gosec // test file path
 		if err != nil {
 			t.Fatalf("reading original: %v", err)
 		}
@@ -299,7 +299,7 @@ func TestExecute_ConflictOverwrite(t *testing.T) {
 
 	t.Run("destination has new content", func(t *testing.T) {
 		dest := filepath.Join(destDir, "file.txt")
-		data, err := os.ReadFile(dest)
+		data, err := os.ReadFile(dest) //nolint:gosec // test file path
 		if err != nil {
 			t.Fatalf("reading destination: %v", err)
 		}
@@ -356,7 +356,7 @@ func TestExecuteUndo(t *testing.T) {
 	origPath := filepath.Join(dirA, "undome.txt")
 	movedPath := filepath.Join(dirB, "undome.txt")
 
-	if err := os.WriteFile(movedPath, []byte("undo data"), 0o644); err != nil {
+	if err := os.WriteFile(movedPath, []byte("undo data"), 0o600); err != nil {
 		t.Fatalf("writing moved file: %v", err)
 	}
 
@@ -373,7 +373,7 @@ func TestExecuteUndo(t *testing.T) {
 	}
 
 	t.Run("file restored to original location", func(t *testing.T) {
-		data, err := os.ReadFile(origPath)
+		data, err := os.ReadFile(origPath) //nolint:gosec // test file path
 		if err != nil {
 			t.Fatalf("expected file at original location: %v", err)
 		}
@@ -399,15 +399,15 @@ func TestExecuteUndo_ReverseOrder(t *testing.T) {
 	origPath1 := filepath.Join(dirA, "file1.txt")
 	origPath2 := filepath.Join(dirA, "file2.txt")
 
-	if err := os.WriteFile(movedPath1, []byte("one"), 0o644); err != nil {
+	if err := os.WriteFile(movedPath1, []byte("one"), 0o600); err != nil {
 		t.Fatalf("writing moved file1: %v", err)
 	}
-	if err := os.WriteFile(movedPath2, []byte("two"), 0o644); err != nil {
+	if err := os.WriteFile(movedPath2, []byte("two"), 0o600); err != nil {
 		t.Fatalf("writing moved file2: %v", err)
 	}
 
 	var order []string
-	logger := func(format string, args ...interface{}) {
+	logger := func(_ string, args ...interface{}) {
 		order = append(order, args[0].(string))
 	}
 

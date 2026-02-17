@@ -16,15 +16,6 @@ func fileExists(path string) bool {
 	return err == nil
 }
 
-func dirIsEmpty(t *testing.T, dir string) bool {
-	t.Helper()
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		t.Fatalf("reading dir %s: %v", dir, err)
-	}
-	return len(entries) == 0
-}
-
 func TestIntegration_FullPipeline(t *testing.T) {
 	// Redirect HOME so the undo log doesn't touch the real home directory.
 	fakeHome := t.TempDir()
@@ -38,21 +29,21 @@ func TestIntegration_FullPipeline(t *testing.T) {
 	destArchives := filepath.Join(tmpdir, "dest_archives")
 
 	for _, d := range []string{sourceDir, destImages, destDocs, destArchives} {
-		if err := os.MkdirAll(d, 0o755); err != nil {
+		if err := os.MkdirAll(d, 0o750); err != nil {
 			t.Fatalf("creating dir %s: %v", d, err)
 		}
 	}
 
 	// Create source files with non-empty content.
 	sourceFiles := map[string]string{
-		"photo.jpg":   "jpeg image data",
+		"photo.jpg":    "jpeg image data",
 		"document.pdf": "pdf document data",
 		"data.csv":     "col1,col2,col3\na,b,c",
 		"archive.zip":  "PK zip archive data",
 		"random.xyz":   "unknown format data",
 	}
 	for name, content := range sourceFiles {
-		if err := os.WriteFile(filepath.Join(sourceDir, name), []byte(content), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(sourceDir, name), []byte(content), 0o600); err != nil {
 			t.Fatalf("creating source file %s: %v", name, err)
 		}
 	}
@@ -196,10 +187,10 @@ func TestIntegration_EmptySource(t *testing.T) {
 	sourceDir := filepath.Join(tmpdir, "source")
 	destDir := filepath.Join(tmpdir, "dest")
 
-	if err := os.MkdirAll(sourceDir, 0o755); err != nil {
+	if err := os.MkdirAll(sourceDir, 0o750); err != nil {
 		t.Fatalf("creating source dir: %v", err)
 	}
-	if err := os.MkdirAll(destDir, 0o755); err != nil {
+	if err := os.MkdirAll(destDir, 0o750); err != nil {
 		t.Fatalf("creating dest dir: %v", err)
 	}
 
@@ -233,16 +224,16 @@ func TestIntegration_NoMatchingRules(t *testing.T) {
 	sourceDir := filepath.Join(tmpdir, "source")
 	destDir := filepath.Join(tmpdir, "dest")
 
-	if err := os.MkdirAll(sourceDir, 0o755); err != nil {
+	if err := os.MkdirAll(sourceDir, 0o750); err != nil {
 		t.Fatalf("creating source dir: %v", err)
 	}
-	if err := os.MkdirAll(destDir, 0o755); err != nil {
+	if err := os.MkdirAll(destDir, 0o750); err != nil {
 		t.Fatalf("creating dest dir: %v", err)
 	}
 
 	// Create files that won't match any rule.
 	for _, name := range []string{"file.abc", "file.def", "file.ghi"} {
-		if err := os.WriteFile(filepath.Join(sourceDir, name), []byte("content"), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(sourceDir, name), []byte("content"), 0o600); err != nil {
 			t.Fatalf("creating file %s: %v", name, err)
 		}
 	}
@@ -285,11 +276,11 @@ func TestIntegration_DestinationAutoCreate(t *testing.T) {
 	// Destination does not exist yet — should be auto-created.
 	destDir := filepath.Join(tmpdir, "auto", "created", "dest")
 
-	if err := os.MkdirAll(sourceDir, 0o755); err != nil {
+	if err := os.MkdirAll(sourceDir, 0o750); err != nil {
 		t.Fatalf("creating source dir: %v", err)
 	}
 
-	if err := os.WriteFile(filepath.Join(sourceDir, "report.pdf"), []byte("pdf content"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(sourceDir, "report.pdf"), []byte("pdf content"), 0o600); err != nil {
 		t.Fatalf("creating source file: %v", err)
 	}
 

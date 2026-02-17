@@ -40,7 +40,7 @@ func WriteUndoLog(log *UndoLog) error {
 		return fmt.Errorf("determining undo log path: %w", err)
 	}
 
-	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
 		return fmt.Errorf("creating undo log directory: %w", err)
 	}
 
@@ -49,7 +49,7 @@ func WriteUndoLog(log *UndoLog) error {
 		return fmt.Errorf("marshaling undo log: %w", err)
 	}
 
-	if err := os.WriteFile(path, data, 0o644); err != nil {
+	if err := os.WriteFile(path, data, 0o600); err != nil {
 		return fmt.Errorf("writing undo log to %s: %w", path, err)
 	}
 
@@ -64,7 +64,7 @@ func ReadUndoLog() (*UndoLog, error) {
 		return nil, fmt.Errorf("determining undo log path: %w", err)
 	}
 
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) //nolint:gosec // path is controlled by caller
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, fmt.Errorf("no undo log found at %s: run 'forg run' first to create one", path)
@@ -105,7 +105,7 @@ func ExecuteUndo(log *UndoLog, verbose bool, logger func(string, ...interface{})
 		entry := log.Operations[i]
 
 		dir := filepath.Dir(entry.From)
-		if err := os.MkdirAll(dir, 0o755); err != nil {
+		if err := os.MkdirAll(dir, 0o750); err != nil {
 			return fmt.Errorf("creating directory %s for undo: %w", dir, err)
 		}
 

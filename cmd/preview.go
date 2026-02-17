@@ -11,7 +11,7 @@ import (
 var previewCmd = &cobra.Command{
 	Use:   "preview",
 	Short: "Show what forg would do without moving any files",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		cfg, err := config.Load(cfgFile)
 		if err != nil {
 			return fmt.Errorf("loading config: %w", err)
@@ -33,13 +33,7 @@ var previewCmd = &cobra.Command{
 			return fmt.Errorf("running preview: %w", err)
 		}
 
-		if len(report.Operations) == 0 {
-			fmt.Println("No files matched.")
-			return nil
-		}
-
-		printTable(report.Operations)
-		fmt.Printf("\n%d file(s) would be moved.\n", len(report.Operations))
+		printReport(report)
 		return nil
 	},
 }

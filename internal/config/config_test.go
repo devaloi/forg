@@ -169,7 +169,7 @@ func TestParse_Errors(t *testing.T) {
 	srcDir := t.TempDir()
 
 	tmpFile := filepath.Join(t.TempDir(), "notadir.txt")
-	if err := os.WriteFile(tmpFile, []byte("hello"), 0644); err != nil {
+	if err := os.WriteFile(tmpFile, []byte("hello"), 0o600); err != nil {
 		t.Fatalf("failed to create temp file: %v", err)
 	}
 

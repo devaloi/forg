@@ -76,7 +76,7 @@ func (e *Executor) Execute(plan []MoveOp, dryRun bool) (*Report, []UndoEntry) {
 			continue
 		}
 
-		if err := e.fs.MkdirAll(op.Destination, 0o755); err != nil {
+		if err := e.fs.MkdirAll(op.Destination, 0o750); err != nil {
 			e.logger("error creating directory %s: %v", op.Destination, err)
 			report.Errors++
 			continue

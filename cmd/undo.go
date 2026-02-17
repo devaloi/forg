@@ -10,7 +10,7 @@ import (
 var undoCmd = &cobra.Command{
 	Use:   "undo",
 	Short: "Reverse the most recent forg run",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(_ *cobra.Command, _ []string) error {
 		log, err := organizer.ReadUndoLog()
 		if err != nil {
 			return fmt.Errorf("reading undo log: %w", err)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/jasonaloi/forg/internal/config"
 	"github.com/jasonaloi/forg/internal/organizer"
@@ -19,7 +20,7 @@ var (
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Execute organizing rules and move files",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(_ *cobra.Command, _ []string) error {
 		cfg, err := config.Load(cfgFile)
 		if err != nil {
 			return fmt.Errorf("loading config: %w", err)
@@ -97,9 +98,9 @@ func printTable(ops []organizer.MoveOp) {
 
 	format := fmt.Sprintf("  %%-%ds  %%-%ds  %%-%ds\n", fileWidth, ruleWidth, destWidth)
 	sep := fmt.Sprintf("  %s  %s  %s\n",
-		repeat("\u2500", fileWidth),
-		repeat("\u2500", ruleWidth),
-		repeat("\u2500", destWidth),
+		strings.Repeat("\u2500", fileWidth),
+		strings.Repeat("\u2500", ruleWidth),
+		strings.Repeat("\u2500", destWidth),
 	)
 
 	fmt.Printf(format, fileHeader, ruleHeader, destHeader)
@@ -124,13 +125,4 @@ func shortPath(path string) string {
 		return path
 	}
 	return filepath.Join("~", rel)
-}
-
-// repeat returns a string consisting of s repeated n times.
-func repeat(s string, n int) string {
-	result := ""
-	for i := 0; i < n; i++ {
-		result += s
-	}
-	return result
 }

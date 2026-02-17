@@ -66,7 +66,7 @@ func Load(path string) (*Config, error) {
 		return nil, fmt.Errorf("expanding config path: %w", err)
 	}
 
-	data, err := os.ReadFile(expanded)
+	data, err := os.ReadFile(expanded) //nolint:gosec // path is controlled by caller
 	if err != nil {
 		return nil, fmt.Errorf("reading config file %s: %w", expanded, err)
 	}
@@ -154,7 +154,7 @@ func validateRule(index int, rule RuleConfig) error {
 	}
 
 	if rule.Match.Pattern != "" {
-		if _, err := regexp.Compile(rule.Match.Pattern); err != nil {
+		if _, err := filepath.Match(rule.Match.Pattern, ""); err != nil {
 			return fmt.Errorf("rule %q: invalid pattern %q: %w", rule.Name, rule.Match.Pattern, err)
 		}
 	}
