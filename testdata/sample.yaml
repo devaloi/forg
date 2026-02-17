@@ -1,0 +1,19 @@
+# Test configuration for forg
+source: /tmp/forg-test-source
+conflict: skip
+
+rules:
+  - name: Images
+    match:
+      extensions: [.jpg, .jpeg, .png, .gif]
+    destination: /tmp/forg-test-dest/images
+
+  - name: Documents
+    match:
+      extensions: [.pdf, .doc, .docx]
+    destination: /tmp/forg-test-dest/documents
+
+  - name: Archives
+    match:
+      extensions: [.zip, .tar, .gz]
+    destination: /tmp/forg-test-dest/archives
