@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/devaloi/forg/internal"
 	"github.com/devaloi/forg/internal/organizer"
 	"github.com/spf13/cobra"
 )
@@ -17,7 +18,7 @@ var undoCmd = &cobra.Command{
 		}
 
 		logger("Undoing %d operation(s) from %s ...",
-			len(log.Operations), log.Timestamp.Format("2006-01-02 15:04:05"))
+			len(log.Operations), log.Timestamp.Format(internal.TimeFormat))
 
 		if err := organizer.ExecuteUndo(log, verbose, logger); err != nil {
 			return fmt.Errorf("executing undo: %w", err)

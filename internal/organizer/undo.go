@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/devaloi/forg/internal"
 )
 
 // UndoEntry records a single file move so it can be reversed.
@@ -29,7 +31,7 @@ func UndoLogPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolving home directory: %w", err)
 	}
-	return filepath.Join(home, ".forg", "undo.json"), nil
+	return filepath.Join(home, internal.UndoLogDir, internal.UndoLogFile), nil
 }
 
 // WriteUndoLog serialises log as JSON and writes it to the default undo log
@@ -40,7 +42,7 @@ func WriteUndoLog(log *UndoLog) error {
 		return fmt.Errorf("determining undo log path: %w", err)
 	}
 
-	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), internal.DefaultDirPerms); err != nil {
 		return fmt.Errorf("creating undo log directory: %w", err)
 	}
 
@@ -105,7 +107,7 @@ func ExecuteUndo(log *UndoLog, verbose bool, logger func(string, ...interface{})
 		entry := log.Operations[i]
 
 		dir := filepath.Dir(entry.From)
-		if err := os.MkdirAll(dir, 0o750); err != nil {
+		if err := os.MkdirAll(dir, internal.DefaultDirPerms); err != nil {
 			return fmt.Errorf("creating directory %s for undo: %w", dir, err)
 		}
 

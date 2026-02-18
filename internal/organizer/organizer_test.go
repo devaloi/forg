@@ -3,9 +3,11 @@ package organizer
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/devaloi/forg/internal"
 	"github.com/devaloi/forg/internal/config"
 	"github.com/devaloi/forg/internal/rules"
 	"github.com/devaloi/forg/internal/scanner"
@@ -444,4 +446,52 @@ func TestExecuteUndo_ReverseOrder(t *testing.T) {
 			t.Errorf("expected second undo for %s, got %s", movedPath1, order[1])
 		}
 	})
+}
+
+// alwaysExistsFS is a FileSystem where Stat always reports the file exists,
+// causing findUniqueName to exhaust all rename attempts.
+type alwaysExistsFS struct{ OSFileSystem }
+
+func (alwaysExistsFS) Stat(_ string) (os.FileInfo, error) {
+	return fakeFileInfo{}, nil
+}
+
+type fakeFileInfo struct{}
+
+func (fakeFileInfo) Name() string        { return "fake" }
+func (fakeFileInfo) Size() int64         { return 0 }
+func (fakeFileInfo) Mode() os.FileMode   { return 0 }
+func (fakeFileInfo) ModTime() time.Time  { return time.Time{} }
+func (fakeFileInfo) IsDir() bool         { return false }
+func (fakeFileInfo) Sys() interface{}    { return nil }
+
+func TestFindUniqueName_Exhaustion(t *testing.T) {
+	destDir := t.TempDir()
+	destPath := filepath.Join(destDir, "file.txt")
+
+	exec := NewExecutorWithFS(alwaysExistsFS{}, internal.ConflictRename, false, nil)
+
+	plan := []MoveOp{
+		{Source: "/tmp/src.txt", Destination: destDir, RuleName: "exhaust-rule"},
+	}
+
+	report, _ := exec.Execute(plan, false)
+
+	if report.Errors != 1 {
+		t.Errorf("expected 1 error from exhaustion, got %d", report.Errors)
+	}
+	if report.Moved != 0 {
+		t.Errorf("expected 0 moved, got %d", report.Moved)
+	}
+
+	// Also verify the error message directly via findUniqueName.
+	_, err := exec.findUniqueName(destPath)
+	if err == nil {
+		t.Fatal("expected error from findUniqueName exhaustion, got nil")
+	}
+
+	wantSubstr := "could not find unique name"
+	if got := err.Error(); !strings.Contains(got, wantSubstr) {
+		t.Errorf("expected error containing %q, got %q", wantSubstr, got)
+	}
 }

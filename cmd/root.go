@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/devaloi/forg/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +29,7 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", ".forg.yaml", "path to configuration file")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", internal.DefaultConfigFile, "path to configuration file")
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enable verbose output")
 	rootCmd.PersistentFlags().BoolVarP(&quiet, "quiet", "q", false, "suppress all non-error output")
 }

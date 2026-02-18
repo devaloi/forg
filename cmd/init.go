@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/devaloi/forg/internal"
 	"github.com/devaloi/forg/internal/config"
 	"github.com/spf13/cobra"
 )
@@ -12,7 +13,7 @@ var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Generate a sample .forg.yaml configuration file",
 	RunE: func(_ *cobra.Command, _ []string) error {
-		const filename = ".forg.yaml"
+		const filename = internal.DefaultConfigFile
 
 		if _, err := os.Stat(filename); err == nil {
 			return fmt.Errorf("%s already exists; remove it first or edit it directly", filename)

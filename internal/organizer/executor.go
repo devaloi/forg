@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/devaloi/forg/internal"
 )
 
 // FileSystem abstracts file-system operations so that the executor can be
@@ -76,7 +78,7 @@ func (e *Executor) Execute(plan []MoveOp, dryRun bool) (*Report, []UndoEntry) {
 			continue
 		}
 
-		if err := e.fs.MkdirAll(op.Destination, 0o750); err != nil {
+		if err := e.fs.MkdirAll(op.Destination, internal.DefaultDirPerms); err != nil {
 			e.logger("error creating directory %s: %v", op.Destination, err)
 			report.Errors++
 			continue
@@ -133,15 +135,15 @@ func (e *Executor) resolveConflict(destPath string) (string, bool, error) {
 
 	// File exists — apply conflict strategy.
 	switch e.conflict {
-	case "overwrite":
+	case internal.ConflictOverwrite:
 		return destPath, true, nil
-	case "rename":
+	case internal.ConflictRename:
 		newPath, err := e.findUniqueName(destPath)
 		if err != nil {
 			return "", false, fmt.Errorf("finding unique name for %q: %w", destPath, err)
 		}
 		return newPath, true, nil
-	case "skip":
+	case internal.ConflictSkip:
 		return "", true, nil
 	default:
 		// Default to skip when no strategy is configured.
@@ -155,7 +157,7 @@ func (e *Executor) findUniqueName(destPath string) (string, error) {
 	ext := filepath.Ext(destPath)
 	base := strings.TrimSuffix(filepath.Base(destPath), ext)
 
-	for i := 1; i <= 1000; i++ {
+	for i := 1; i <= internal.MaxRenameAttempts; i++ {
 		candidate := filepath.Join(dir, fmt.Sprintf("%s-%d%s", base, i, ext))
 		_, err := e.fs.Stat(candidate)
 		if err != nil {
@@ -165,5 +167,5 @@ func (e *Executor) findUniqueName(destPath string) (string, error) {
 			return "", fmt.Errorf("stat %q: %w", candidate, err)
 		}
 	}
-	return "", fmt.Errorf("could not find unique name for %q after 1000 attempts", destPath)
+	return "", fmt.Errorf("could not find unique name for %q after %d attempts", destPath, internal.MaxRenameAttempts)
 }

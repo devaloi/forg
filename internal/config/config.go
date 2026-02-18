@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/devaloi/forg/internal"
 	"gopkg.in/yaml.v3"
 )
 
@@ -112,11 +113,8 @@ func validate(cfg *Config) error {
 		return fmt.Errorf("source path %s is not a directory", srcExpanded)
 	}
 
-	if cfg.Conflict != "" {
-		valid := map[string]bool{"skip": true, "rename": true, "overwrite": true}
-		if !valid[cfg.Conflict] {
-			return fmt.Errorf("invalid conflict strategy %q: must be skip, rename, or overwrite", cfg.Conflict)
-		}
+	if cfg.Conflict != "" && !internal.ValidConflictStrategy(cfg.Conflict) {
+		return fmt.Errorf("invalid conflict strategy %q: must be skip, rename, or overwrite", cfg.Conflict)
 	}
 
 	if len(cfg.Rules) == 0 {
