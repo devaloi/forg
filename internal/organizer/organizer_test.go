@@ -458,12 +458,12 @@ func (alwaysExistsFS) Stat(_ string) (os.FileInfo, error) {
 
 type fakeFileInfo struct{}
 
-func (fakeFileInfo) Name() string        { return "fake" }
-func (fakeFileInfo) Size() int64         { return 0 }
-func (fakeFileInfo) Mode() os.FileMode   { return 0 }
-func (fakeFileInfo) ModTime() time.Time  { return time.Time{} }
-func (fakeFileInfo) IsDir() bool         { return false }
-func (fakeFileInfo) Sys() interface{}    { return nil }
+func (fakeFileInfo) Name() string       { return "fake" }
+func (fakeFileInfo) Size() int64        { return 0 }
+func (fakeFileInfo) Mode() os.FileMode  { return 0 }
+func (fakeFileInfo) ModTime() time.Time { return time.Time{} }
+func (fakeFileInfo) IsDir() bool        { return false }
+func (fakeFileInfo) Sys() interface{}   { return nil }
 
 func TestFindUniqueName_Exhaustion(t *testing.T) {
 	destDir := t.TempDir()
