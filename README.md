@@ -1,5 +1,6 @@
 # forg — Smart File Organizer
 
+[![CI](https://github.com/devaloi/forg/actions/workflows/ci.yml/badge.svg)](https://github.com/devaloi/forg/actions/workflows/ci.yml)
 [![Go Version](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat&logo=go)](https://go.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
